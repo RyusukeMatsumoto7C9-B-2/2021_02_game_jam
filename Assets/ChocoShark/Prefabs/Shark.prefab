@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 3988183222773603954}
   - component: {fileID: 3947914787992944806}
   - component: {fileID: 4030659822091121350}
+  - component: {fileID: 1475085871}
   m_Layer: 0
   m_Name: Shark
   m_TagString: Untagged
@@ -61,7 +62,7 @@ Transform:
   m_GameObject: {fileID: 3893732756480757100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.6, y: 5.45, z: -23.74}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
   m_Children:
   - {fileID: 3892311640758778026}
   - {fileID: 3892509034597609408}
@@ -78,8 +79,8 @@ Animator:
   m_GameObject: {fileID: 3893732756480757100}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 6af215ede01ed2145bf41b470826c8cb, type: 3}
-  m_Controller: {fileID: 9100000, guid: 69aa9ed1b36e5d1409ac67df25a7d8a9, type: 2}
-  m_CullingMode: 1
+  m_Controller: {fileID: 9100000, guid: fd385ec9cb1f3d942b3451dfe2102c52, type: 2}
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -117,6 +118,22 @@ CapsuleCollider:
   m_Height: 13.84
   m_Direction: 2
   m_Center: {x: 0, y: 0.74, z: 0}
+--- !u!114 &1475085871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3893732756480757100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b38b6dcca794ee94a97e6243c47ddf26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
+  correctPower: 0.5
+  attenuation: 1
+  currentTarget: {fileID: 0}
 --- !u!1 &3894518043553973360
 GameObject:
   m_ObjectHideFlags: 0

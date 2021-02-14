@@ -92,7 +92,8 @@ namespace ChocoShark
         private void OnCollisionEnter(
             Collision other)
         {
-            if (other.gameObject.name == "Chocolate")
+            var chocolatePie = other.gameObject.GetComponent<ChocolatePie>();
+            if (chocolatePie != null)
             {
                 State = SharkState.Eating;
                 animator.SetBool(SharkAnimState.Eating, true);
