@@ -9,17 +9,36 @@ namespace ChocoShark
     /// </summary>
     public class ChocolatePie : MonoBehaviour
     {
-        
-        // Start is called before the first frame update
+
+        [SerializeField] private float hp = 100;
+        private float initialHp;
+
+
         void Start()
         {
-            
+            initialHp = hp;
         }
 
-        // Update is called once per frame
+        
         void Update()
         {
-            
+            if (0 < hp)
+            {
+                float ratio = hp / initialHp;
+                transform.localScale = Vector3.one * (hp / initialHp);
+            }
+            else
+            {
+                transform.localScale = Vector3.zero;
+            }
+
+        }
+
+
+        public void SetDamage(
+            float damage)
+        {
+            hp -= damage;
         }
     }
 }

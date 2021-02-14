@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 
 namespace ChocoShark
@@ -45,7 +46,7 @@ namespace ChocoShark
         public SharkState State { get; private set; } = SharkState.TargetChase;
         private Rigidbody rig;
         private Animator animator;
-        
+        private ChocolatePie chocolatePie;        
         
 
         private void Start()
@@ -67,6 +68,8 @@ namespace ChocoShark
                 
                 case SharkState.Eating:
                     // 食べる処理.
+                    AddSpringForceExtra(currentTarget.position);
+                    chocolatePie?.SetDamage(1f);                    
                     break;
      
                 case SharkState.Escape:
@@ -92,12 +95,20 @@ namespace ChocoShark
         private void OnCollisionEnter(
             Collision other)
         {
-            var chocolatePie = other.gameObject.GetComponent<ChocolatePie>();
+            chocolatePie = other.gameObject.GetComponent<ChocolatePie>();
             if (chocolatePie != null)
             {
                 State = SharkState.Eating;
                 animator.SetBool(SharkAnimState.Eating, true);
             }
+        }
+
+
+        private void OnCollisionExit(
+            Collision other)
+        {
+            State = SharkState.TargetChase;
+            animator.SetBool(SharkAnimState.Eating, false);
         }
     }
 }
