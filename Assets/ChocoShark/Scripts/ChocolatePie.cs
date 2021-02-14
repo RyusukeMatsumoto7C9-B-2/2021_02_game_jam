@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 namespace ChocoShark
 {
@@ -10,35 +11,36 @@ namespace ChocoShark
     public class ChocolatePie : MonoBehaviour
     {
 
-        [SerializeField] private float hp = 100;
         private float initialHp;
-
+        private ReactiveProperty<float> hp = new ReactiveProperty<float>(100);
 
         void Start()
         {
-            initialHp = hp;
+            initialHp = hp.Value;
+            hp.Subscribe(e =>
+            {
+                if (0 < e)
+                {
+                    transform.localScale = Vector3.one * (e / initialHp);
+                }
+                else
+                {
+                    transform.localScale = Vector3.zero;
+                }
+            });
         }
 
         
         void Update()
         {
-            if (0 < hp)
-            {
-                float ratio = hp / initialHp;
-                transform.localScale = Vector3.one * (hp / initialHp);
-            }
-            else
-            {
-                transform.localScale = Vector3.zero;
-            }
-
+            Debug.Log($"hp {hp.Value / initialHp}");
         }
 
 
         public void SetDamage(
             float damage)
         {
-            hp -= damage;
+            hp.Value -= damage;
         }
     }
 }

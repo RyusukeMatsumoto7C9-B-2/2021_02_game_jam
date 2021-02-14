@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-
+using UniRx;
 
 namespace ChocoShark
 {
@@ -42,17 +42,35 @@ namespace ChocoShark
         [SerializeField] private float correctPower;
         [SerializeField,Range(1f, 4f)] private float attenuation = 1f;
         [SerializeField] private Transform currentTarget;
+        [SerializeField,Range(1f, 10)] private float attackPoint = 0.1f;
 
-        public SharkState State { get; private set; } = SharkState.TargetChase;
+
+        private ReactiveProperty<SharkState> state = new ReactiveProperty<SharkState>(SharkState.TargetChase);
+
         private Rigidbody rig;
         private Animator animator;
-        private ChocolatePie chocolatePie;        
-        
+        private ChocolatePie chocolatePie;
+        private IDisposable attackDisposable = null;
+
 
         private void Start()
         {
             rig = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
+
+            state.Subscribe(value =>
+            {
+                animator.SetBool(SharkAnimState.Eating, value == SharkState.Eating);
+                if (value == SharkState.Eating)
+                {
+                    attackDisposable = Observable.Interval(TimeSpan.FromSeconds(1))
+                        .Subscribe(_ => chocolatePie?.SetDamage(attackPoint));
+                }
+                else
+                {
+                    attackDisposable?.Dispose();                    
+                }
+            });
         }
 
         
@@ -60,7 +78,7 @@ namespace ChocoShark
         {
             transform.LookAt(currentTarget);
 
-            switch (State)
+            switch (state.Value)
             {
                 case SharkState.TargetChase:
                     AddSpringForceExtra(currentTarget.position);
@@ -68,8 +86,6 @@ namespace ChocoShark
                 
                 case SharkState.Eating:
                     // 食べる処理.
-                    AddSpringForceExtra(currentTarget.position);
-                    chocolatePie?.SetDamage(1f);                    
                     break;
      
                 case SharkState.Escape:
@@ -98,8 +114,7 @@ namespace ChocoShark
             chocolatePie = other.gameObject.GetComponent<ChocolatePie>();
             if (chocolatePie != null)
             {
-                State = SharkState.Eating;
-                animator.SetBool(SharkAnimState.Eating, true);
+                state.Value = SharkState.Eating;
             }
         }
 
@@ -107,8 +122,7 @@ namespace ChocoShark
         private void OnCollisionExit(
             Collision other)
         {
-            State = SharkState.TargetChase;
-            animator.SetBool(SharkAnimState.Eating, false);
+            state.Value = SharkState.TargetChase;
         }
     }
 }
