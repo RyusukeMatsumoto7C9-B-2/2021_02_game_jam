@@ -97,7 +97,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3893732756480757100}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 2
   m_Drag: 1
   m_AngularDrag: 1
   m_UseGravity: 0
@@ -132,10 +132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
-  correctPower: 0.5
+  correctPower: 0.3
   attenuation: 1
-  currentTarget: {fileID: 0}
-  forward: {fileID: 1256194767807191382}
+  attackPoint: 5
 --- !u!1 &3894518043553973360
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,7 +898,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6b2decf64a7be584e86a9770319d0d99, type: 2}
+  - {fileID: 2100000, guid: 8cdb14b5e80bbfc4db337c29f1c19d42, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

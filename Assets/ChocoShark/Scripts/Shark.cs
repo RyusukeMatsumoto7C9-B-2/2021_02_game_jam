@@ -43,7 +43,6 @@ namespace ChocoShark
         
         [SerializeField] private float correctPower;
         [SerializeField,Range(1f, 4f)] private float attenuation = 1f;
-        [SerializeField] private Transform currentTarget;
         [SerializeField,Range(1f, 10)] private float attackPoint = 0.1f;
 
 
@@ -54,6 +53,7 @@ namespace ChocoShark
         private ChocolatePie chocolatePie;
         private IDisposable attackDisposable = null;
         private Vector3 spawnedPosition;
+        private Vector3 targetPosition;
 
 
         private void Start()
@@ -84,8 +84,8 @@ namespace ChocoShark
             switch (state.Value)
             {
                 case SharkState.TargetChase:
-                    transform.LookAt(currentTarget);
-                    AddSpringForceExtra(currentTarget.position);
+                    transform.LookAt(targetPosition);
+                    AddSpringForceExtra(targetPosition);
                     break;
                 
                 case SharkState.Eating:
@@ -162,11 +162,9 @@ namespace ChocoShark
         }
 
 
-        public void SetDamage(
-            float damage)
-        {
-            Hp -= damage;
-        }
+        public void SetDamage(float damage) => Hp -= damage;
+
+        public void SetTargetPosition(Vector3 position) => targetPosition = position;
     }
 }
 

@@ -48,6 +48,11 @@ namespace ChocoShark
             Vector3 force)
         {
             rig.AddForce(force, ForceMode.Impulse);
+            Vector3 torque = Vector3.one;
+            torque.x *= UnityEngine.Random.Range(0, 3);
+            torque.y *= UnityEngine.Random.Range(0, 3);
+            torque.z *= UnityEngine.Random.Range(0, 3);
+            rig.AddTorque(torque);
         }
         
     }

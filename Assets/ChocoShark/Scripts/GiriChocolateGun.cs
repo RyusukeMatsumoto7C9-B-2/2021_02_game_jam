@@ -8,7 +8,10 @@ namespace ChocoShark
     public class GiriChocolateGun : MonoBehaviour
     {
         [SerializeField] private GameObject giriChocoPrefab;
-        
+        [SerializeField] private float shootPowerMin = 0.1f;
+        [SerializeField] private float shootPowerMax = 0.3f;
+
+
         private void Start()
         {
             
@@ -29,7 +32,16 @@ namespace ChocoShark
         {
             var giriChoko = Instantiate(giriChocoPrefab).GetComponent<GiriChocolate>();
             giriChoko.transform.position = transform.position;
-            giriChoko.SetForce(transform.forward * Random.Range(1, 2));
+            giriChoko.SetForce(transform.forward * Random.Range(shootPowerMin, shootPowerMax));
+        }
+
+        
+        /// <summary>
+        /// アプリを終了する.
+        /// </summary>
+        public void OnShutDown()
+        {
+            Application.Quit();
         }
 
     }
