@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/ChocoShark/Scenes/Main.unity
+    guid: 2c449192a7a706841a90ee8c211dc8e8
   m_configObjects:
     com.unity.xr.magicleap.magic_leap_settings: {fileID: 11400000, guid: f174e033056ae0849a5d5dd8620068cf,
       type: 2}

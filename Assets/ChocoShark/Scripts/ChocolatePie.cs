@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UniRx;
+
+using UnityEngine.XR.MagicLeap;
+
 
 namespace ChocoShark
 {
@@ -10,7 +11,7 @@ namespace ChocoShark
     /// </summary>
     public class ChocolatePie : MonoBehaviour
     {
-
+        private MLPersistentCoordinateFrames.PCF aa;
         private float initialHp;
         private ReactiveProperty<float> hp = new ReactiveProperty<float>(100);
 

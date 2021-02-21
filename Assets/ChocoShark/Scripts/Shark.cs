@@ -33,6 +33,8 @@ namespace ChocoShark
                 if (hp <= 0)
                 {
                     // 逃げに移る.            
+                    Debug.Log("逃げに移るはず");
+                    state.Value = SharkState.Escape;
                     animator.SetBool(SharkAnimState.Eating, false);
                 }
             }
@@ -51,10 +53,12 @@ namespace ChocoShark
         private Animator animator;
         private ChocolatePie chocolatePie;
         private IDisposable attackDisposable = null;
+        private Vector3 spawnedPosition;
 
 
         private void Start()
         {
+            spawnedPosition = transform.position;
             rig = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
 
@@ -76,11 +80,11 @@ namespace ChocoShark
         
         private void Update()
         {
-            transform.LookAt(currentTarget);
 
             switch (state.Value)
             {
                 case SharkState.TargetChase:
+                    transform.LookAt(currentTarget);
                     AddSpringForceExtra(currentTarget.position);
                     break;
                 
@@ -89,7 +93,12 @@ namespace ChocoShark
                     break;
      
                 case SharkState.Escape:
-                    AddSpringForceExtra(currentTarget.position);
+                    transform.LookAt(spawnedPosition);
+                    AddSpringForceExtra(spawnedPosition);
+                    if (Vector3.Distance(spawnedPosition, transform.position) < 0.1f)
+                    {
+                        Destroy(gameObject);
+                    }
                     break;
             }
         }
@@ -111,6 +120,8 @@ namespace ChocoShark
         private void OnCollisionEnter(
             Collision other)
         {
+            if (state.Value == SharkState.Escape) return;
+
             var pie = other.gameObject.GetComponent<ChocolatePie>();
             if (pie != null)
             {
@@ -123,8 +134,11 @@ namespace ChocoShark
             }
         }
 
-        private void OnCollisionStay(Collision other)
+        
+        private void OnCollisionStay(
+            Collision other)
         {
+            if (state.Value == SharkState.Escape) return;
             if (chocolatePie != null) return;
             
             var pie = other.gameObject.GetComponent<ChocolatePie>();
@@ -143,7 +157,15 @@ namespace ChocoShark
         private void OnCollisionExit(
             Collision other)
         {
+            if (state.Value == SharkState.Escape) return;
             state.Value = SharkState.TargetChase;
+        }
+
+
+        public void SetDamage(
+            float damage)
+        {
+            Hp -= damage;
         }
     }
 }
