@@ -111,10 +111,31 @@ namespace ChocoShark
         private void OnCollisionEnter(
             Collision other)
         {
-            chocolatePie = other.gameObject.GetComponent<ChocolatePie>();
-            if (chocolatePie != null)
+            var pie = other.gameObject.GetComponent<ChocolatePie>();
+            if (pie != null)
             {
+                chocolatePie = pie;
                 state.Value = SharkState.Eating;
+            }
+            else
+            {
+                chocolatePie = null;
+            }
+        }
+
+        private void OnCollisionStay(Collision other)
+        {
+            if (chocolatePie != null) return;
+            
+            var pie = other.gameObject.GetComponent<ChocolatePie>();
+            if (pie != null)
+            {
+                chocolatePie = pie;
+                state.Value = SharkState.Eating;
+            }
+            else
+            {
+                chocolatePie = null;
             }
         }
 
